@@ -1,0 +1,4 @@
+keyboard
+pymem
+pynput
+pywin32
