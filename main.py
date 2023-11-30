@@ -3,20 +3,21 @@ import pymem, pymem.process, keyboard, time
 from pynput.mouse import Controller, Button
 from win32gui import GetWindowText, GetForegroundWindow
 from random import uniform
+from offsets import *
 
 mouse = Controller()
+client = Client()
 
-# https://github.com/a2x/cs2-dumper/
-dwEntityList = 0x17995C0
-dwLocalPlayerPawn = 0x1886C48
-m_iIDEntIndex = 0x1524
-m_iTeamNum = 0x3BF
-m_iHealth = 0x32C
+dwEntityList = client.offset('dwEntityList')
+dwLocalPlayerPawn = client.offset('dwLocalPlayerPawn')
+m_iIDEntIndex = client.get('C_CSPlayerPawnBase', 'm_iIDEntIndex')
+m_iTeamNum = client.get('C_BaseEntity', 'm_iTeamNum')
+m_iHealth = client.get('C_BaseEntity', 'm_iHealth')
 
 triggerKey = "shift"
 
 def main():
-    print("TriggerBot started.")
+    print(f"[-] TriggerBot started.\n[-] Trigger key: {triggerKey.upper()}")
     pm = pymem.Pymem("cs2.exe")
     client = pymem.process.module_from_name(pm.process_handle, "client.dll").lpBaseOfDll
 
@@ -36,13 +37,15 @@ def main():
                     entity = pm.read_longlong(entEntry + 120 * (entityId & 0x1FF))
 
                     entityTeam = pm.read_int(entity + m_iTeamNum)
-                    entityHp = pm.read_int(entity + m_iHealth)
-
                     playerTeam = pm.read_int(player + m_iTeamNum)
 
-                    if entityTeam != playerTeam and entityHp > 0:
-                        time.sleep(uniform(0.01, 0.05))
-                        mouse.click(Button.left)
+                    if entityTeam != playerTeam:
+                        entityHp = pm.read_int(entity + m_iHealth)
+                        if entityHp>0:
+                            time.sleep(uniform(0.01, 0.03))
+                            mouse.press(Button.left)
+                            time.sleep(uniform(0.01, 0.05))
+                            mouse.release(Button.left)
 
                 time.sleep(0.03)
             else:
