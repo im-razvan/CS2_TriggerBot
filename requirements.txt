@@ -2,3 +2,4 @@ keyboard
 pymem
 pynput
 pywin32
+requests
