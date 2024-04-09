@@ -12,11 +12,11 @@ class Client:
         try:
             return self.offsets['client.dll'][a]
         except:
-            print(f'Offset {a} not found.')
+            raise Exception(f'Unable to get {a}.')
             exit()
     def get(self, a, b):
         try:
             return self.clientdll['client.dll']['classes'][a]['fields'][b]
         except:
-            print(f'Unable to get {a}, {b}.')
+            raise Exception(f'Unable to get {a}.{b}.')
             exit()
