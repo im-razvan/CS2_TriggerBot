@@ -1,8 +1,9 @@
+from requests import get as g
 class Client:
     def __init__(self):
         try:
-            self.offsets = get('https://raw.githubusercontent.com/a2x/cs2-dumper/main/output/offsets.json').json()
-            self.clientdll = get('https://raw.githubusercontent.com/a2x/cs2-dumper/main/output/client_dll.json').json()
+            self.offsets = g('https://raw.githubusercontent.com/a2x/cs2-dumper/main/output/offsets.json').json()
+            self.clientdll = g('https://raw.githubusercontent.com/a2x/cs2-dumper/main/output/client_dll.json').json()
         except:
             print('Unable to get offsets.')
             exit()
