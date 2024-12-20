@@ -18,9 +18,12 @@ triggerKey = "shift"
 
 def main():
     print(f"[-] TriggerBot started.\n[-] Trigger key: {triggerKey.upper()}")
-    pm = pymem.Pymem("cs2.exe")
-    client = pymem.process.module_from_name(pm.process_handle, "client.dll").lpBaseOfDll
-
+    try:
+        pm = pymem.Pymem("cs2.exe")
+        client = pymem.process.module_from_name(pm.process_handle, "client.dll").lpBaseOfDll
+    except:
+        print("Please open CSGO 2!")
+        exit()
     while True:
         try:
             if not GetWindowText(GetForegroundWindow()) == "Counter-Strike 2":
