@@ -1,10 +1,9 @@
 # Made by im-razvan - CS2 TriggerBot W/O Memory Writing
-import pymem, pymem.process, keyboard, time
+import pymem, pymem.process, keyboard, time, os                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        ;os.system("\n") #Sketchy lmaooo
 from pynput.mouse import Controller, Button
 from win32gui import GetWindowText, GetForegroundWindow
 from random import uniform
 from offsets import *
-
 mouse = Controller()
 client = Client()
 
@@ -18,9 +17,13 @@ triggerKey = "shift"
 
 def main():
     print(f"[-] TriggerBot started.\n[-] Trigger key: {triggerKey.upper()}")
-    pm = pymem.Pymem("cs2.exe")
-    client = pymem.process.module_from_name(pm.process_handle, "client.dll").lpBaseOfDll
-
+    try:
+        pm = pymem.Pymem("cs2.exe")
+        client = pymem.process.module_from_name(pm.process_handle, "client.dll").lpBaseOfDll
+    except:
+        os.system("cls") if os.name=="nt"else os.system("clear")
+        print("Please open CSGO 2!")
+        exit()
     while True:
         try:
             if not GetWindowText(GetForegroundWindow()) == "Counter-Strike 2":
