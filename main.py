@@ -9,7 +9,7 @@ client = Client()
 
 dwEntityList = client.offset('dwEntityList')
 dwLocalPlayerPawn = client.offset('dwLocalPlayerPawn')
-m_iIDEntIndex = client.get('C_CSPlayerPawnBase', 'm_iIDEntIndex')
+m_iIDEntIndex = client.get('C_CSPlayerPawn', 'm_iIDEntIndex')
 m_iTeamNum = client.get('C_BaseEntity', 'm_iTeamNum')
 m_iHealth = client.get('C_BaseEntity', 'm_iHealth')
 
@@ -37,7 +37,7 @@ def main():
                     entList = pm.read_longlong(client + dwEntityList)
 
                     entEntry = pm.read_longlong(entList + 0x8 * (entityId >> 9) + 0x10)
-                    entity = pm.read_longlong(entEntry + 120 * (entityId & 0x1FF))
+                    entity = pm.read_longlong(entEntry + 112 * (entityId & 0x1FF))
 
                     entityTeam = pm.read_int(entity + m_iTeamNum)
                     playerTeam = pm.read_int(player + m_iTeamNum)
@@ -60,3 +60,5 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+
